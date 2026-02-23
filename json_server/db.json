@@ -1,0 +1,21 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "1번글 제목",
+      "author": "user01"
+    }
+  ],
+  "comments": [
+    {
+      "body": "등록",
+      "postId": "1",
+      "id": "1"
+    },
+    {
+      "id": "548c",
+      "body": "등록연습",
+      "postId": "2"
+    }
+  ]
+}
