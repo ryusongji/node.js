@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>메일 발송</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="mail-container">
+      <h2>📧 메일 발송</h2>
+
+      <form
+        id="mailform"
+        action="./api/mail"
+        enctype="multipart/form-data"
+        method="post"
+      >
+        <div class="form-group">
+          <label for="sender">발신자</label>
+          <input
+            type="email"
+            id="sender"
+            name="sender"
+            placeholder="발신자 이메일 입력"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="receiver">수신자</label>
+          <input
+            type="email"
+            id="receiver"
+            name="to"
+            placeholder="수신자 이메일 입력"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="subject">제목</label>
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            placeholder="제목 입력"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="content">내용</label>
+          <textarea
+            id="content"
+            name="text"
+            rows="8"
+            placeholder="내용을 입력하세요"
+            required
+          ></textarea>
+        </div>
+
+        <div class="input-group">
+          <input type="file" name="myfile" />
+        </div>
+
+        <button type="submit" class="send_btn">메일 보내기</button>
+      </form>
+    </div>
+    <script>
+      document.querySelector("#mailform").addEventListener("submit", (e) => {
+        // console.log(e);
+        // e.preventDefault(); //form submit기본 기능 차단
+        //필요항목
+        const form = document.querySelector("#sender").value;
+        const to = document.querySelector("#receiver").value;
+        const subject = document.querySelector("#subject").value;
+        const text = document.querySelector("#content").value;
+        if (!form || !to || !subject || !text) {
+          alert("필수항목 입력");
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("form", form);
+        formData.append("to", to);
+        formData.append("subject", subject);
+        formData.append("text", text);
+        formData.append("myfile", e.target[4].files[0]);
+
+        fetch("./api/mail", {
+          method: "post",
+          // headers: { "Content-Type": "application/json" },
+          body: formData,
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            // alert("메일 발송 완료");
+
+            if (data.retCode == "OK") {
+              alert("메일발송성공");
+              location.reload();
+            } else {
+              alert("발송실패");
+            }
+          })
+          .catch((err) => console.log(err));
+      });
+    </script>
+  </body>
+</html>

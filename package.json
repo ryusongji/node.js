@@ -1,6 +1,11 @@
 {
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "lodash": "^4.17.23",
+    "mysql2": "^3.18.0"
+  },
   "devDependencies": {
-    "concurrently": "^9.2.1",
-    "json-server": "^1.0.0-beta.9"
+    "nodemon": "^3.1.14"
   }
 }

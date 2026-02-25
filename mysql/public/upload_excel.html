@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>엑셀 파일 업로드</title>
+    <link rel="stylesheet" href="style_excel.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>엑셀 파일 업로드</h2>
+
+      <form
+        id="excel_form"
+        action="/api/excel_upload"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <div class="file-box">
+          <input type="file" name="myFile" />
+          <!-- <input
+            type="file"
+            id="excelFile"
+            name="excelFile"
+            accept=".xls,.xlsx"
+            required
+          /> -->
+        </div>
+
+        <button type="submit">업로드</button>
+      </form>
+    </div>
+
+    <script>
+      document.querySelector("excel_form").addEventListener("submit", (e) => {
+        const excelData = new ExcelData();
+        // console.log(e);
+        excelData.append("myFile", e.target[4].files[0]);
+      });
+
+      fetch("/api/excel_upload", {
+        method: "post",
+        body: excelData,
+      })
+        .then((resp) => resp.json())
+        .then((data) => {
+          // console.log(data);
+          // if (data.retCode == "OK") {
+          //   alert("업로드성공");
+          //   location.reload();
+          // } else {
+          //   alert("업로드실패");
+          // }
+        })
+        .catch((err) => console.log(err));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+/* 전체 배경 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #4e73df, #1cc88a);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* 중앙 박스 */
+.container {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 350px;
+}
+
+/* 제목 */
+.container h2 {
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* 파일 선택 영역 */
+.file-box {
+  margin-bottom: 20px;
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 8px;
+}
+
+/* 버튼 스타일 */
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4e73df;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #2e59d9;
+}
