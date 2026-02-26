@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif;
+  background-color: #f5f6f8;
+}
+
+.detail-wrapper {
+  width: 90%;
+  max-width: 900px;
+  margin: 60px auto;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* 제목 */
+.post-title {
+  margin: 0 0 15px 0;
+  font-size: 26px;
+}
+
+/* 작성자 정보 */
+.post-info {
+  font-size: 14px;
+  color: #777;
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+/* 본문 */
+.post-content {
+  margin-top: 30px;
+  font-size: 16px;
+  line-height: 1.8;
+  min-height: 200px;
+}
+
+/* 버튼 영역 */
+.button-group {
+  margin-top: 40px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.list-btn {
+  background-color: #6b7280;
+  color: white;
+}
+
+.list-btn:hover {
+  background-color: #4b5563;
+}
+
+.edit-btn {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #2563eb;
+}
+
+.delete-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #dc2626;
+}

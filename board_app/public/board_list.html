@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>커뮤니티 게시판</title>
+    <link rel="stylesheet" href="board_list.css" />
+  </head>
+  <body>
+    <div class="board-wrapper">
+      <div class="board-header">
+        <h2>커뮤니티 게시판</h2>
+        <button class="write-btn" onClick="location.href='board.html'">
+          ✏ 글쓰기
+        </button>
+      </div>
+
+      <table class="board-table">
+        <thead>
+          <tr>
+            <th class="col-id">글번호</th>
+            <th class="col-title">글제목</th>
+            <th class="col-writer">작성자</th>
+            <th class="col-date">날짜</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <script>
+      fetch("./api/board")
+        .then((resp) => resp.json())
+        .then((data) => {
+          const parent = document.querySelector("tbody");
+          for (let board of data) {
+            console.log(board);
+            const { board_id, title, name, created_at } = board;
+            const html = `
+                            <tr>
+                              <td>${board_id}</td>
+                              <td>
+                                <a herf="board_detail.html" data-page="${board_id}">${title}</a>
+                              </td>
+                              <td>${name}</td>
+                              <td>${created_at}</td>
+                            </tr>
+                            `;
+            parent.insertAdjacentHTML("beforeend", html);
+          }
+          document.querySelectorAll("tbody a").forEach((elem) => {
+            elem.addEventListener("click", (e) => {
+              e.preventDefault();
+              localStorage.setItem("page", e.target.dataset.page);
+              location.href = "board_detail.html";
+            });
+          });
+        })
+        .catch(console.log);
+    </script>
+  </body>
+</html>

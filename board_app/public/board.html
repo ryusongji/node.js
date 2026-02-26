@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>글 등록 페이지</title>
+    <link rel="stylesheet" href="board_style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>글 등록 페이지</h2>
+
+      <form
+        action="./api/board"
+        id="board_form"
+        enctype="multipart/form-data"
+        method="post"
+      >
+        <div class="form-group">
+          <label for="writer_id">작성자</label>
+          <input type="text" id="writer_id" name="writer_id" required />
+        </div>
+
+        <div class="form-group">
+          <label for="title">글제목</label>
+          <input type="text" id="title" name="title" required />
+        </div>
+
+        <div class="form-group">
+          <label for="content">글내용</label>
+          <textarea id="content" name="content" rows="6" required></textarea>
+        </div>
+
+        <button type="submit">등록하기</button>
+      </form>
+    </div>
+    <script>
+      document.querySelector("#board_form").addEventListener("submit", (e) => {
+        const writer_id = document.querySelector("#writer_id").value;
+        const title = document.querySelector("#title").value;
+        const content = document.querySelector("#content").value;
+        if (!writer_id || !title || !content) {
+          alert("필수항목 입력");
+          return;
+        }
+        const boardData = {
+          title,
+          content,
+          writer_id,
+        };
+
+        fetch("./api/board", {
+          method: "post",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(boardData),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            if (data.retCode == "OK") {
+              alert("등록 성공");
+              location.herf = "board_list.html";
+            } else {
+              alert("등록 실패");
+            }
+          })
+          .catch((err) => console.log(err));
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>글 상세보기</title>
+    <link rel="stylesheet" href="board_detail.css" />
+  </head>
+  <body>
+    <div class="detail-wrapper">
+      <!-- 상단 제목 -->
+      <div class="detail-header"></div>
+
+      <!-- 본문 -->
+      <div class="post-content"></div>
+
+      <!-- 버튼 영역 -->
+      <div class="button-group">
+        <button class="list-btn" onClick="location.href='board_list.html'">
+          목록으로
+        </button>
+        <button class="edit-btn">수정</button>
+        <button class="delete-btn">삭제</button>
+      </div>
+    </div>
+    <script>
+      fetch("./api/board/" + localStorage.getItem("page"))
+        .then((resp) => resp.json())
+        .then((data) => {
+          const title_parent = document.querySelector(".detail-header");
+          for (let board of data) {
+            const { title, name, created_at, board_id } = board;
+            const html = `
+            <span class="post-id">No. ${board_id}</span>
+            <h2 class="post-title">${title}</h2>
+                            <div class="post-info">
+                            <span class="writer">작성자 : ${name}</span>
+                            <span class="date">작성일 : ${created_at}</span>
+                            `;
+            title_parent.insertAdjacentHTML("beforeend", html);
+          }
+
+          const body_parent = document.querySelector(".post-content");
+          for (let board of data) {
+            const { content } = board;
+            const html = `
+                            <p>${content}</p>
+                            `;
+            body_parent.insertAdjacentHTML("beforeend", html);
+          }
+        })
+        .catch(console.log);
+    </script>
+  </body>
+</html>
