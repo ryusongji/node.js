@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const authModel = require("../models/memberModel");
-const { trim } = require("lodash");
+// const { trim } = require("lodash");
+const jwt = require("jsonwebtoken");
 
 async function signup(loginId, name, password, role) {
   const hashed = await bcrypt.hash(password, 10);
@@ -20,7 +21,17 @@ async function login(loginId, password) {
   if (!match) {
     return null;
   }
-  return user; //token 만들어서 넣을때 필요
+  const token = jwt.sign(
+    {
+      member_id: user.member_id,
+      login_id: user.login_id,
+      role: user.role,
+    },
+    "secret-token",
+    { expiresIn: "1h" },
+  );
+  console.log(token);
+  return token; //token 만들어서 넣을때 필요
 }
 
 module.exports = { signup, login };

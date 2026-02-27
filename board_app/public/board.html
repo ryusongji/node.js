@@ -17,13 +17,12 @@
         method="post"
       >
         <div class="form-group">
-          <label for="writer_id">작성자</label>
-          <input type="text" id="writer_id" name="writer_id" required />
-        </div>
-
-        <div class="form-group">
           <label for="title">글제목</label>
           <input type="text" id="title" name="title" required />
+        </div>
+        <div class="form-group">
+          <label for="writer_id">작성자</label>
+          <input type="text" id="writer_id" name="writer_id" required />
         </div>
 
         <div class="form-group">
@@ -36,6 +35,7 @@
     </div>
     <script>
       document.querySelector("#board_form").addEventListener("submit", (e) => {
+        e.preventDefault();
         const writer_id = document.querySelector("#writer_id").value;
         const title = document.querySelector("#title").value;
         const content = document.querySelector("#content").value;
@@ -51,8 +51,14 @@
 
         fetch("./api/board", {
           method: "post",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(boardData),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            title: boardData.title,
+            content: boardData.content,
+          }),
         })
           .then((resp) => resp.json())
           .then((data) => {
@@ -61,7 +67,7 @@
               alert("등록 성공");
               location.herf = "board_list.html";
             } else {
-              alert("등록 실패");
+              alert(`에러 : ${data.retMsg}`);
             }
           })
           .catch((err) => console.log(err));

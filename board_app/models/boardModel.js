@@ -36,13 +36,9 @@ async function getByQuery({ title, content, writer_id }) {
   return pool.query(sql, [{ title, content, writer_id }]);
 }
 
-//insert
+async function remove(board_id) {
+  const sql = `delete from tbl_board where board_id = ?`;
+  return pool.query(sql, [board_id]);
+}
 
-// const run = async () => {
-//   const [result, mataData] = await getList();
-//   console.log(result);
-// };
-
-// run();
-
-module.exports = { getList, getById, getByQuery };
+module.exports = { getList, getById, getByQuery, remove };

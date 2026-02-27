@@ -41,8 +41,11 @@
         })
           .then((resp) => resp.json())
           .then((data) => {
+            console.log(data);
             if (data.retCode == "OK") {
-              alert("로그인 성공, 글목록으로 이동합니다");
+              // alert("로그인 성공, 글목록으로 이동합니다");
+              // location.href = "board_list.html";
+              localStorage.setItem("token", data.token);
               location.href = "board_list.html";
             } else {
               alert("아이디와 비밀번호를 확인하세요");

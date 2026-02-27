@@ -7,8 +7,12 @@
   </head>
   <body>
     <div class="detail-wrapper">
+      <div id="member_id" style="display: none"></div>
+      <div id="writer_id" style="display: none"></div>
       <!-- 상단 제목 -->
-      <div class="detail-header"></div>
+      <div class="detail-header">
+        <span class="login"></span>
+      </div>
 
       <!-- 본문 -->
       <div class="post-content"></div>
@@ -23,14 +27,28 @@
       </div>
     </div>
     <script>
-      fetch("./api/board/" + localStorage.getItem("page"))
+      page_id = localStorage.getItem("page");
+      fetch("./api/board/" + page_id)
         .then((resp) => resp.json())
-        .then((data) => {
+        .then(({ user, data }) => {
+          const [board] = data;
+          document.querySelector("#member_id").innerHTML = user.member_id;
+          document.querySelector("#writer_id").innerHTML = board.writer_id;
+
+          if (user.member_id != board.writer_id) {
+            // document.querySelector(".delete-btn").disabled = true;
+            // document.querySelector(".delete-btn").style.display = "none";
+            // document.querySelector(".edit-btn").disabled = true;
+            // document.querySelector(".edit-btn").style.display = "none";
+          }
+
           const title_parent = document.querySelector(".detail-header");
+          document.querySelector("span.login").innerHTML =
+            `id: ${user.login_id}(${user.name})`;
           for (let board of data) {
             const { title, name, created_at, board_id } = board;
             const html = `
-            <span class="post-id">No. ${board_id}</span>
+            <span class="post-id">No.${board_id}</span>
             <h2 class="post-title">${title}</h2>
                             <div class="post-info">
                             <span class="writer">작성자 : ${name}</span>
@@ -49,6 +67,42 @@
           }
         })
         .catch(console.log);
+      //삭제버튼
+      document.querySelector(".delete-btn").addEventListener("click", (e) => {
+        const deleteId = document
+          .querySelector("span.post-id")
+          .innerText.replace("No.", "");
+
+        console.log(deleteId);
+        fetch("./api/board/" + deleteId, {
+          method: "delete",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            if (data.retCode == "OK") {
+              alert("삭제 성공");
+              location.herf = "board_list.html";
+            } else {
+              alert(`에러 : ${data.retMsg}`);
+            }
+          })
+          .catch((err) => console.log(err));
+      });
+
+      document.querySelector(".edit-btn").addEventListener("click", (e) => {
+        const mid = document.querySelector("#member_id").innerHTML;
+        const wid = document.querySelector("#writer_id").innerHTML;
+        if (mid == wid) {
+          alert("수정페이지로 이동합니다");
+        } else {
+          alert("권한을 확인하세요");
+          return;
+        }
+      });
     </script>
   </body>
 </html>
